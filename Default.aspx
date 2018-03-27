@@ -6,40 +6,56 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>NuGet Private Repository</title>
-    <style type="text/css"> body { font-family: Calibri; } </style>
+    <title>myPSGallery: Private PowerShell Repository</title>
+    <style type="text/css"> 
+	body { font-family: Calibri; } 
+	code { font-family: monospace; font-size: 16px }
+    </style>
 </head>
 <body>
     <div>
-        <h2>NuGet.Server v<%= typeof(NuGetODataConfig).Assembly.GetName().Version %></h2>
-        <p>
-            Click <a href="<%= VirtualPathUtility.ToAbsolute("~/nuget/Packages") %>">here</a> to view your packages.
-        </p>
-        <fieldset style="width:800px">
-            <legend><strong>Repository URLs</strong></legend>
-            In the package manager settings, add the following URL to the list of 
-            Package Sources:
-            <blockquote>
-                <strong><%= Helpers.GetRepositoryUrl(Request.Url, Request.ApplicationPath) %></strong>
-            </blockquote>
-            <% if (string.IsNullOrEmpty(ConfigurationManager.AppSettings["apiKey"])) { %>
-            To enable pushing packages to this feed using the <a href="https://www.nuget.org/downloads">NuGet command line tool</a> (nuget.exe), set the <code>apiKey</code> appSetting in web.config.
-            <% } else { %>
-            Use the command below to push packages to this feed using the <a href="https://www.nuget.org/downloads">NuGet command line tool</a> (nuget.exe).
-            <blockquote>
-                <strong>nuget.exe push {package file} {apikey} -Source <%= Helpers.GetPushUrl(Request.Url, Request.ApplicationPath) %></strong>
-            </blockquote>
-            <% } %> 
+        <h2>myPSGallery: Private PowerShell Repository (NuGet.Server v<%= typeof(NuGetODataConfig).Assembly.GetName().Version %>)</h2>
+        <fieldset>
+            <legend><strong>[ View published modules, scripts and packages ]</strong></legend><br/>
+            Click <a href="<%= VirtualPathUtility.ToAbsolute("~/nuget/Packages") %>">here</a> to view your published modules<br/><br/>
         </fieldset>
-
+        <br />
+        <fieldset>
+            <legend><strong>[ Register the repository ]</strong></legend><br/>
+            Use the <strong>PowerShell</strong> commands below to register this repository in your profile:
+            <blockquote>
+                <code>
+$uri = '<%= Helpers.GetRepositoryUrl(Request.Url, Request.ApplicationPath) %>'</code><br />
+                <code>
+Register-PSRepository -Name myPSGallery -SourceLocation $uri
+ -PublishLocation $uri -InstallationPolicy Trusted</code>
+            </blockquote>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend><strong>[ Publish to the repository ]</strong></legend><br/>
+            Use the <strong>PowerShell</strong> commands below to publish modules to this feed:
+            <blockquote>
+                <code>$moduleName = 'myModuleName'</code><br />
+                <code>$apiKey = '01234567-89ab-cdef-0123-456789abcdef'</code><br />
+                <code>Publish-Module -Repository myPSGallery -Name $moduleName -NuGetApiKey $apiKey</code>
+            </blockquote>
+            Or use the <strong>nuget.exe</strong> command below to publish nuget packages to this feed:
+            <blockquote>
+                <code>nuget.exe push {package file} {apikey} -Source <%= Helpers.GetPushUrl(Request.Url, Request.ApplicationPath) %></code>
+            </blockquote>
+        </fieldset>
+        <br />
         <% if (Request.IsLocal) { %>
-        <fieldset style="width:800px">
-            <legend><strong>Adding packages</strong></legend>
-
-            To add packages to the feed put package files (.nupkg files) in the folder
+        <fieldset>
+            <legend><strong>[ Adding packages locally ]</strong></legend><br/>
+            To locally add packages to the feed put the package files (.nupkg files) under 
             <code><% = PackageUtility.PackagePhysicalPath %></code><br/><br/>
-
-            Click <a href="<%= VirtualPathUtility.ToAbsolute("~/nuget/clear-cache") %>">here</a> to clear the package cache.
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend><strong>[ Clear the package cache ]</strong></legend><br/>
+            Click <a href="<%= VirtualPathUtility.ToAbsolute("~/nuget/clear-cache") %>">here</a> to clear the package cache.<br/><br/>
         </fieldset>
         <% } %>
     </div>
