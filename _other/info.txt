@@ -1,4 +1,0 @@
-C:\ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\NuGet.exe
-
-
-C:\Program Files\PackageManagement\ProviderAssemblies\nuget\2.8.5.202\Microsoft.PackageManagement.NuGetProvider.dll
