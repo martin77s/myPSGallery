@@ -76,6 +76,15 @@
         <br /><br />
 		
         <fieldset>
+			<legend>&nbsp;&nbsp;<a href=# onclick="CopyCode('InstallModuleCode');"><img src="images/clip.svg" height=24 width=24></a>
+				<strong>Use the command below to install a module from the repository:&nbsp;&nbsp;</strong></legend>
+            <blockquote id='InstallModuleCode'><code>
+                Install-Module -Name $ModuleName -Scope AllUsers -Force -AllowClobber -Verbose
+            </code></blockquote>
+        </fieldset>
+        <br /><br />
+		
+        <fieldset>
 			<legend>&nbsp;&nbsp;<a href=# onclick="CopyCode('PublishModulesCode');"><img src="images/clip.svg" height=24 width=24></a>
 				<strong>Use the command below to publish modules to this feed:&nbsp;&nbsp;</strong></legend>
             <blockquote id='PublishModulesCode'><code>
